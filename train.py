@@ -21,11 +21,10 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def train(opt):
-    """ dataset preparation """
+    """ Dataset Preparation """
     if not opt.data_filtering_off:
         print('Filtering the images containing characters which are not in opt.character')
         print('Filtering the images whose label is longer than opt.batch_max_length')
-        # see https://github.com/clovaai/deep-text-recognition-benchmark/blob/6593928855fb7abb999a99f428b3e4477d4ae356/dataset.py#L130
 
     opt.select_data = opt.select_data.split('-')
     opt.batch_ratio = opt.batch_ratio.split('-')
@@ -44,7 +43,7 @@ def train(opt):
     log.write('-' * 80 + '\n')
     log.close()
 
-    """ model configuration """
+    """ Model Configuration """
     if 'CTC' in opt.Prediction:
         if opt.baiduCTC:
             converter = CTCLabelConverterForBaiduWarpctc(opt.character)
@@ -88,7 +87,7 @@ def train(opt):
     print("Model:")
     print(model)
 
-    """ setup loss """
+    """ Setup Loss """
     if 'CTC' in opt.Prediction:
         if opt.baiduCTC:
             # need to install warpctc. see our guideline.
@@ -118,7 +117,7 @@ def train(opt):
     print("Optimizer:")
     print(optimizer)
 
-    """ final options """
+    """ Final Options """
     # print(opt)
     with open(f'./saved_models/{opt.exp_name}/opt.txt', 'a') as opt_file:
         opt_log = '------------ Options -------------\n'
@@ -129,7 +128,7 @@ def train(opt):
         print(opt_log)
         opt_file.write(opt_log)
 
-    """ start training """
+    """ Start Training """
     start_iter = 0
     if opt.saved_model != '':
         try:
@@ -143,7 +142,7 @@ def train(opt):
     best_norm_ED = -1
     iteration = start_iter
 
-    while (True):
+    while True:
         # train part
         image_tensors, labels = train_dataset.get_batch()
         image = image_tensors.to(device)
@@ -237,7 +236,7 @@ if __name__ == '__main__':
 
     os.makedirs(f'./saved_models/{opt.exp_name}', exist_ok=True)
 
-    """ vocab / character number configuration """
+    """ Vocab / Character number configuration """
     if opt.sensitive:
         # opt.character += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         opt.character = string.printable[:-6]  # same with ASTER setting (use 94 char).
@@ -255,17 +254,9 @@ if __name__ == '__main__':
     # print('device count', opt.num_gpu)
     if opt.num_gpu > 1:
         print('------ Use multi-GPU setting ------')
-        print('if you stuck too long time with multi-GPU setting, try to set --workers 0')
-        # check multi-GPU issue https://github.com/clovaai/deep-text-recognition-benchmark/issues/1
+        print('f you stuck too long time with multi-GPU setting, try to set --workers 0')
+
         opt.workers = opt.workers * opt.num_gpu
         opt.batch_size = opt.batch_size * opt.num_gpu
-
-        """ previous version
-        print('To equlize batch stats to 1-GPU setting, the batch_size is multiplied with num_gpu and multiplied batch_size is ', opt.batch_size)
-        opt.batch_size = opt.batch_size * opt.num_gpu
-        print('To equalize the number of epochs to 1-GPU setting, num_iter is divided with num_gpu by default.')
-        If you dont care about it, just commnet out these line.)
-        opt.num_iter = int(opt.num_iter / opt.num_gpu)
-        """
 
     train(opt)
