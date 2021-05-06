@@ -6,14 +6,15 @@ import torch.backends.cudnn as cudnn
 import torch.utils.data
 import torch.nn.functional as F
 
-from utils import CTCLabelConverter, AttnLabelConverter
+from utils.converter import CTCLabelConverter, AttnLabelConverter
 from utils.dataset import RawDataset, AlignCollate
 from nets.model import Model
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def demo(opt):
-    """ model configuration """
+    """ Model Configuration """
     if 'CTC' in opt.Prediction:
         converter = CTCLabelConverter(opt.character)
     else:
@@ -67,11 +68,10 @@ def demo(opt):
                 _, preds_index = preds.max(2)
                 preds_str = converter.decode(preds_index, length_for_pred)
 
-
             log = open(f'./log_demo_result.txt', 'a')
             dashed_line = '-' * 80
             head = f'{"image_path":25s}\t{"predicted_labels":25s}\tconfidence score'
-            
+
             print(f'{dashed_line}\n{head}\n{dashed_line}')
             log.write(f'{dashed_line}\n{head}\n{dashed_line}\n')
 
@@ -90,6 +90,7 @@ def demo(opt):
                 log.write(f'{img_name:25s}\t{pred:25s}\t{confidence_score:0.4f}\n')
 
             log.close()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -118,7 +119,7 @@ if __name__ == '__main__':
 
     opt = parser.parse_args()
 
-    """ vocab / character number configuration """
+    """ Vocab / Character number configuration """
     if opt.sensitive:
         opt.character = string.printable[:-6]  # same with ASTER setting (use 94 char).
 
