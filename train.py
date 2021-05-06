@@ -11,8 +11,9 @@ import torch.optim as optim
 import torch.utils.data
 import numpy as np
 
-from utils import CTCLabelConverter, AttnLabelConverter, Averager
-from utils import hierarchical_dataset, AlignCollate, Batch_Balanced_Dataset, opt
+from utils.converter import CTCLabelConverter, CTCLabelConverterForBaiduWarpctc, AttnLabelConverter, Averager
+from utils import config as opt
+from utils.dataset import hierarchical_dataset, AlignCollate, Batch_Balanced_Dataset
 from nets.model import Model
 from test import validation
 
@@ -45,7 +46,10 @@ def train(opt):
 
     """ model configuration """
     if 'CTC' in opt.Prediction:
-        converter = CTCLabelConverter(opt.character)
+        if opt.baiduCTC:
+            converter = CTCLabelConverterForBaiduWarpctc(opt.character)
+        else:
+            converter = CTCLabelConverter(opt.character)
     else:
         converter = AttnLabelConverter(opt.character)
     opt.num_class = len(converter.character)
@@ -86,7 +90,12 @@ def train(opt):
 
     """ setup loss """
     if 'CTC' in opt.Prediction:
-        criterion = torch.nn.CTCLoss(zero_infinity=True).to(device)
+        if opt.baiduCTC:
+            # need to install warpctc. see our guideline.
+            from warpctc_pytorch import CTCLoss
+            criterion = CTCLoss()
+        else:
+            criterion = torch.nn.CTCLoss(zero_infinity=True).to(device)
     else:
         criterion = torch.nn.CrossEntropyLoss(ignore_index=0).to(device)  # ignore [GO] token = ignore index 0
     # loss averager
@@ -220,6 +229,7 @@ def train(opt):
 
 
 if __name__ == '__main__':
+
     if not opt.exp_name:
         opt.exp_name = f'{opt.Transformation}-{opt.FeatureExtraction}-{opt.SequenceModeling}-{opt.Prediction}'
         opt.exp_name += f'-Seed{opt.manualSeed}'

@@ -31,7 +31,7 @@ imgW = 100                                          # the width of the input ima
 rgb = True                                          # use rgb input
 character='0123456789abcdefghijklmnopqrstuvwxyz'    # character label
 sensitive = False                                   # for sensitive character mode
-PAD = True                                          # whether to keep ratio then pad for image resize
+PAD = False                                         # whether to keep ratio then pad for image resize
 data_filtering_off = True                           # for data_filtering_off mode
 """ Model Architecture """
 Transformation = 'TPS'                              # Transformation stage. None|TPS
