@@ -19,7 +19,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def benchmark_all_eval(model, criterion, converter, opt, calculate_infer_time=False):
-    """ evaluation with 10 benchmark evaluation datasets """
+    """ Evaluation with 10 benchmark evaluation datasets """
     # The evaluation datasets, dataset order is same with Table 1 in our paper.
     eval_data_list = ['IIIT5k_3000', 'SVT', 'IC03_860', 'IC03_867', 'IC13_857',
                       'IC13_1015', 'IC15_1811', 'IC15_2077', 'SVTP', 'CUTE80']
@@ -80,7 +80,7 @@ def benchmark_all_eval(model, criterion, converter, opt, calculate_infer_time=Fa
 
 
 def validation(model, criterion, evaluation_loader, converter, opt):
-    """ validation or evaluation """
+    """ Validation or Evaluation """
     n_correct = 0
     norm_ED = 0
     length_of_data = 0
@@ -102,7 +102,7 @@ def validation(model, criterion, evaluation_loader, converter, opt):
             preds = model(image, text_for_pred)
             forward_time = time.time() - start_time
 
-            # Calculate evaluation loss for CTC deocder.
+            # Calculate evaluation loss for CTC decoder.
             preds_size = torch.IntTensor([preds.size(1)] * batch_size)
             # permute 'preds' to use CTCloss format
             if opt.baiduCTC:
@@ -218,12 +218,12 @@ def test(opt):
     if 'CTC' in opt.Prediction:
         criterion = torch.nn.CTCLoss(zero_infinity=True).to(device)
     else:
-        criterion = torch.nn.CrossEntropyLoss(ignore_index=0).to(device)  # ignore [GO] token = ignore index 0
+        criterion = torch.nn.CrossEntropyLoss(ignore_index=0).to(device)
 
     """ evaluation """
     model.eval()
     with torch.no_grad():
-        if opt.benchmark_all_eval:  # evaluation with 10 benchmark evaluation datasets
+        if opt.benchmark_all_eval:
             benchmark_all_eval(model, criterion, converter, opt)
         else:
             log = open(f'./result/{opt.exp_name}/log_evaluation.txt', 'a')
