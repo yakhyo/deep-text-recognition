@@ -1,4 +1,4 @@
-""" CONFIGURATIONS """
+""" Default CONFIGURATIONS """
 exp_name = 'logs'                                   # Where to store logs and models
 train_data = '../data_lmdb_release/training/'       # path to training dataset
 valid_data = '../data_lmdb_release/validation/'     # path to validation dataset
@@ -32,7 +32,7 @@ rgb = False                                         # use rgb input
 character='0123456789abcdefghijklmnopqrstuvwxyz'    # character label
 sensitive = False                                   # for sensitive character mode
 PAD = False                                         # whether to keep ratio then pad for image resize
-data_filtering_off = True                           # for data_filtering_off mode
+data_filtering_off = False                          # for data_filtering_off mode
 """ Model Architecture """
 Transformation = 'TPS'                              # Transformation stage. None|TPS
 FeatureExtraction = 'ResNet'                        # FeatureExtraction stage. VGG|RCNN|ResNet
