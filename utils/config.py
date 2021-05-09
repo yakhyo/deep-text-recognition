@@ -12,7 +12,7 @@ batch_size = 768                                    # input batch size
 num_gpu = 1                                         # number of GPU devices, by default 0
 num_iter = 300000                                   # number of iterations to train for
 valInterval = 2000                                  # Interval between each validation
-saved_model = ''                                    # path to model to continue training, if you have no any saved_model to continue left it as ''
+saved_model = 'weights/best_accuracy.pth'           # path to model to continue training, if you have no any saved_model to continue left it as ''
 FT = False                                          # whether to do fine-tuning
 adam = False                                        # Whether to use adam (default is Adadelta)
 lr = 1.0                                            # learning rate, default=1.0 for Adadelta
@@ -42,3 +42,4 @@ num_fiducial = 20                                   # number of fiducial points 
 input_channel = 1                                   # the number of input channel of Feature extractor
 output_channel = 512                                # the number of output channel of Feature extractor
 hidden_size = 256                                   # the size of the LSTM hidden state
+image_folder = 'path/to/images'                     # for demo.py
