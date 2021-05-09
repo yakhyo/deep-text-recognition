@@ -34,7 +34,15 @@ data
 
 <br>
 
+**To run demo.py:**
+* Download our trained weight from [here](https://www.dropbox.com/s/t3shjr8voy0ypwp/best_accuracy.pth?dl=0)
+* Or run `download_weights.sh` in weights folder.
+* Run `demo.py`.
+
+
 **I trained the model with following configurations(150k iterations and 2 Tesla V100 GPUs):**
+
+`TPS-ResNet-BiLSTM-Attn` 
 
 ```python
 """ Default CONFIGURATIONS """
