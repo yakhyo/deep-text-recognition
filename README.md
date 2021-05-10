@@ -96,5 +96,6 @@ hidden_size = 256                                   # the size of the LSTM hidde
 **Results:**
 ![](assets/img.png)
 
-
-I just tried to reproduce their result, and the code is the same with official implementation.
+**Notice**
+* I just tried to reproduce their result, and the code is the same with official implementation.
+* `baiduCTC = False` - authors of the paper said while they used `baiduCTC = False`their model achivied the highest result. I tried to nstall __baiduCTC__  but failed.
