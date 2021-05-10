@@ -94,7 +94,9 @@ hidden_size = 256                                   # the size of the LSTM hidde
 <br>
 
 **Results:**
+
 ![](assets/img.png)
+
 
 **Notice**
 * I just tried to reproduce their result, and the code is the same with official implementation.
