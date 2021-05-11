@@ -1,4 +1,4 @@
-**What Is Wrong With Scene Text Recognition Model Comparisons? Dataset and Model Analysis**
+## What Is Wrong With Scene Text Recognition Model Comparisons? Dataset and Model Analysis
 
 [Paper](https://arxiv.org/pdf/1904.01906.pdf) | Official [Implementation](https://github.com/clovaai/deep-text-recognition-benchmark)
 
