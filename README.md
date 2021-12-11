@@ -44,7 +44,7 @@ data
 
 `TPS-ResNet-BiLSTM-Attn` 
 
-```python
+```
 """ Default CONFIGURATIONS """
 exp_name = 'logs'                                   # Where to store logs and models
 train_data = '../data_lmdb_release/training/'       # path to training dataset
